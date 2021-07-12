@@ -5,7 +5,7 @@
 ## Integrantes del equipo
 
 [Luis Miguel Muro Garcia LuisMiguelMuro
-Luis Peñaranda del Ma.zo]
+Luis Peñaranda del Mazo Luispdelmazo.]
 
 
 
