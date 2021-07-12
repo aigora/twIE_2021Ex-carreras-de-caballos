@@ -4,7 +4,10 @@
 
 ## Integrantes del equipo
 
-[Luis Miguel Muro Garcia LuisMiguelMuro.]
+[Luis Miguel Muro Garcia LuisMiguelMuro
+Luis Peñaranda del Ma.zo]
+
+
 
 ## Objetivos del trabajo
 
