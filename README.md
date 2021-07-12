@@ -1,10 +1,10 @@
-# [Título del trabajo]
+# [Carreras de caballos]
 
-[Descripción breve del proyecto a realizar (2-3 frases).]
+[Juego multijugador en el cual los jugadores competiran por que caballo llega antes a la meta.]
 
 ## Integrantes del equipo
 
-[Nombres, apellidos, y usuario GitHub de los integrantes del equipo.]
+[Luis Miguel Muro Garcia LuisMiguelMuro.]
 
 ## Objetivos del trabajo
 
