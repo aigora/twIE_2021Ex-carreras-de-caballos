@@ -32,17 +32,19 @@ void you_win(SDL_Rect *posicion_texto, int numero_vidas, SDL_Renderer *escenario
 void movimiento_jugador(variables_jugador jugador[], int numero_jugador, int *tiempo)//Permite al usuario interactuar con su jugador
 {
     const Uint8 *captura=SDL_GetKeyboardState(NULL);//Necesario para poder usar SDL_Scancode
-    int velocidad_movimiento=2;
+    int velocidad_movimiento=5;
     SDL_Scancode tecla;
 
     if(numero_jugador==0)//En funcion del jugador en cuestion usara las teclas asdw o las flechas
     tecla=SDL_SCANCODE_SPACE;
     if(numero_jugador==1)
     tecla=SDL_SCANCODE_LSHIFT;
-    if(numero_jugador==1)
-    tecla=SDL_SCANCODE_;
+    if(numero_jugador==2)
+    tecla=SDL_SCANCODE_RSHIFT;
+    if(numero_jugador==3)
+    tecla=SDL_SCANCODE_6;
 
-    if(captura[teclas[0]])//Detecta si el una tecla esta pulsada, entoces se ejecuta la condicion
+    if(captura[teclas])//Detecta si el una tecla esta pulsada, entoces se ejecuta la condicion
         {
             jugador[numero_jugador].recortar_animacion.y=jugador[numero_jugador].alto_animacion/4;
             jugador[numero_jugador].posicion_animacion.x+=velocidad_movimiento;//Mueve la animacion por el plano de la pantalla
@@ -52,45 +54,6 @@ void movimiento_jugador(variables_jugador jugador[], int numero_jugador, int *ti
                 jugador[numero_jugador].recortar_animacion.x+=jugador[numero_jugador].ancho_animacion/5;//Pasa a recortar la siguiente fase de la animacion
                 if(jugador[numero_jugador].recortar_animacion.x>=jugador[numero_jugador].ancho_animacion)
                     jugador[numero_jugador].recortar_animacion.x=0;//Cuando llega a la ultima fase de la animacion vuelve a la primera fase
-                *tiempo=0;
-            }
-        }
-       if (captura[teclas[1]])//Se repite lo mismo para el resto de teclas
-        {
-            jugador[numero_jugador].recortar_animacion.y=0;
-            jugador[numero_jugador].posicion_animacion.x-=velocidad_movimiento;
-            *tiempo+=1;
-            if(*tiempo>=5)
-            {
-                jugador[numero_jugador].recortar_animacion.x-=jugador[numero_jugador].ancho_animacion/5;
-                if(jugador[numero_jugador].recortar_animacion.x<=0)
-                    jugador[numero_jugador].recortar_animacion.x=jugador[numero_jugador].ancho_animacion*4/5;
-                *tiempo=0;
-            }
-        }
-        if (captura[teclas[2]])
-        {
-            jugador[numero_jugador].recortar_animacion.y=jugador[numero_jugador].alto_animacion/2;
-            jugador[numero_jugador].posicion_animacion.y-=2;
-            *tiempo+=1;
-            if(*tiempo>=5)
-            {
-                jugador[numero_jugador].recortar_animacion.x+=jugador[numero_jugador].ancho_animacion/5;
-                if(jugador[numero_jugador].recortar_animacion.x>=jugador[numero_jugador].ancho_animacion)
-                    jugador[numero_jugador].recortar_animacion.x=0;
-                *tiempo=0;
-            }
-        }
-        if (captura[teclas[3]])
-        {
-            jugador[numero_jugador].recortar_animacion.y=jugador[numero_jugador].alto_animacion*3/4;
-            jugador[numero_jugador].posicion_animacion.y+=2;
-            *tiempo+=1;
-            if(*tiempo>=5)
-            {
-                jugador[numero_jugador].recortar_animacion.x+=jugador[numero_jugador].ancho_animacion/5;
-                if(jugador[numero_jugador].recortar_animacion.x>=jugador[numero_jugador].ancho_animacion)
-                    jugador[numero_jugador].recortar_animacion.x=0;
                 *tiempo=0;
             }
         }
@@ -248,6 +211,10 @@ void datos_partida(char nombre_partida[50])
 
 void multijugador(_Bool cargar, char nombre_partida[], int victorias[],int numero_victoria, _Bool revancha, int numero_mapa,int)
 {
+    int tiempo_jugador1;
+    int tiempo_jugador2;
+    int tiempo_jugador3;
+    int tiempo_jugador4;
     int control=0;
     long int segundos;
     long int microsegundos;
@@ -319,101 +286,38 @@ break;
             {
                 ejecutando=0;
             }
-            if (evento.type==SDL_KEYDOWN)//Evento del tipo pulsar tecla
-            {
-
-                if(evento.key.keysym.sym==SDLK_f)//Si es una f lo mismo pero para el jugador 2
-                {
-                    if (jugador[1].recargando==0 && jugador[1].bala_existe==0)
-                    disparar(jugador,1,jugador,0,escenario,&distx2,&disty2);
-
-                }
-
-                if (evento.key.keysym.sym==SDLK_m)
-                    {
-                        if (jugador[0].trampa_cargada==1)
-                        {
-                        jugador[0].trampa_cargada=0;
-                        jugador[0].posicion_trampa.x=jugador[0].posicion_animacion.x;
-                        jugador[0].posicion_trampa.y=jugador[0].posicion_animacion.y;
-                        }
-                    }
-                if (evento.key.keysym.sym==SDLK_e)
-                    {
-                        if (jugador[1].trampa_cargada==1)
-                        {
-                        jugador[1].trampa_cargada=0;
-                        jugador[1].posicion_trampa.x=jugador[1].posicion_animacion.x;
-                        jugador[1].posicion_trampa.y=jugador[1].posicion_animacion.y;
-                        }
-                    }
-            }
-        }
-
-        recargar_y_movimiento(jugador,0,&tiempo_estructura,distx1,disty1);//Mueve la bala y recarga la municion
-        recargar_y_movimiento(jugador,1,&tiempo_recarga_estructura,distx2,disty2);
-
-        movimiento_jugador(jugador,0,&tiempo_jugador);//Para mover los jugadores
+        switch(n)
+        {
+        case 2:
+        movimiento_jugador(jugador,0,&tiempo_jugador1);//Para mover los jugadores
         movimiento_jugador(jugador,1,&tiempo_jugador2);
-
         limites_mapa(jugador,0);//Donde se pueden mover
         limites_mapa(jugador,1);
-
-        interseccion(jugador,0,jugador,1);//Si las balas intersecan con los jugadores
-        interseccion(jugador,1,jugador,0);
-
-        if (tiempo_mina>=5.0)
-        {
-            mina(barrera,0,escenario,jugador,0,numero_mapa);
-            mina(barrera,0,escenario,jugador,1,numero_mapa);
-            tiempo_mina=0;
-            posicion_portal(barrera,0);
+        break;
+        case 3:
+        movimiento_jugador(jugador,0,&tiempo_jugador1);//Para mover los jugadores
+        movimiento_jugador(jugador,1,&tiempo_jugador2);
+        movimiento_jugador(jugador,2,&tiempo_jugador3);
+        limites_mapa(jugador,0);//Donde se pueden mover
+        limites_mapa(jugador,1);
+        limites_mapa(jugador,2);
+        break;
+        case 4:
+        movimiento_jugador(jugador,0,&tiempo_jugador1);//Para mover los jugadores
+        movimiento_jugador(jugador,1,&tiempo_jugador2);
+        movimiento_jugador(jugador,2,&tiempo_jugador3);
+        movimiento_jugador(jugador,3,&tiempo_jugador4);
+        limites_mapa(jugador,0);//Donde se pueden mover
+        limites_mapa(jugador,1);
+        limites_mapa(jugador,2);
+        limites_mapa(jugador,3);
+        break;        
         }
-
-        interseccion_mina(jugador,0,barrera,0);
-        interseccion_mina(jugador,1,barrera,0);
-
-        interseccion_trampa(jugador,0,jugador,1);
-        interseccion_trampa(jugador,1,jugador,0);
-
-        explosion_mina(jugador,0,barrera,0);
-        explosion_mina(jugador,1,barrera,0);
-
-        if(jugador[1].intersecan||jugador[1].interseca_mina || jugador[1].interseca_trampa)//Si la bala 0 interseca con el jugador 1
-                                                            //llama a la funcion vidas restantes
-        {
-            vidas_restantes(jugador,1);
-        }
-
-        if(jugador[0].intersecan||jugador[0].interseca_mina || jugador[0].interseca_trampa)
-        {
-            vidas_restantes(jugador,0);
-        }
-
         SDL_RenderClear(escenario);//Limpia lo que haya en el escenario
-
-        if (numero_mapa==0)
-            mapa_multijugador(barrera,0,escenario,jugador,0);
-
-        else if (numero_mapa==1)
-            mapa_multijugador_teletransporte(barrera,0,escenario,jugador,0);
 
         copiar_atributos(jugador,0,escenario); //Pega en el escenario las caracteristicas de cada jugador tras acabar el bucle
         copiar_atributos(jugador,1,escenario);
-        portal(barrera,0,jugador,escenario,numero_mapa);
-        SDL_RenderCopy(escenario,barrera[0].mina,&barrera[0].recortar_mina,&barrera[0].posicion_mina);
 
-        if(barrera[0].explota)
-        {
-            tiempo_explosion++;
-            SDL_RenderCopy(escenario,barrera[0].explosion,NULL,&barrera[0].posicion_explosion);
-            if (tiempo_explosion>=50)
-            {
-                barrera[0].explota=0;
-                barrera[0].posicion_explosion.x=1500;
-                tiempo_explosion=0;
-            }
-        }
         SDL_RenderPresent(escenario);//Presenta el render sobre la ventana principal
 
         gettimeofday(&end, 0);
