@@ -38,6 +38,9 @@
 			<Add directory="../SDL2-General/SDL2-2.0.14/x86_64-w64-mingw32/lib" />
 			<Add directory="../SDL2-Imagen/SDL2_image-2.0.5/x86_64-w64-mingw32/lib" />
 		</Linker>
+		<Unit filename="Funcionesp.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="Funcionesp.h" />
 		<Unit filename="Menú principal.c">
 			<Option compilerVar="CC" />

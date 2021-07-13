@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include "Funcionesp.h"
 
 typedef struct
 {
@@ -18,6 +19,7 @@ int main (int argc, char* argv[])
     char instrucciones[]="Aqui instrucciones";
     char aux;
     int casos,nlineas=0,i=0;
+    int numero_jugadores;
     _Bool menu_on=1;
     registro_jugadores *registro;
 
@@ -31,6 +33,7 @@ int main (int argc, char* argv[])
 
     do
     {
+
         printf("1.- Instrucciones\n2.- Jugar (2-4 personas)\n3.- Ver puntuaciones\n4.- Salir\n");
         scanf("%i",&casos);
 
@@ -40,6 +43,9 @@ int main (int argc, char* argv[])
             printf("%s\n\n",instrucciones);
             break;
         case 2:
+            printf("%cNumero de jugadores?\n",168);
+            scanf("%i",&numero_jugadores);
+            multijugador(numero_jugadores);
             break;
         case 3:
             registro_partidas = fopen("Registro.txt","r");

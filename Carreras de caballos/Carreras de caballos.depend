@@ -1,11 +1,12 @@
 # depslib dependency file v1.0
-1626118843 source:c:\users\jorge\onedrive\documentos\obs studio\upm\informática\trabajo github\twie_2021ex-carreras-de-caballos\carreras de caballos\menú principal.c
+1626169579 source:c:\users\jorge\onedrive\documentos\obs studio\upm\informática\trabajo github\twie_2021ex-carreras-de-caballos\carreras de caballos\menú principal.c
 	<stdio.h>
 	<string.h>
 	<time.h>
 	<stdlib.h>
 	<SDL2/SDL.h>
 	<SDL2/SDL_image.h>
+	"Funcionesp.h"
 
 1608576488 c:\users\jorge\onedrive\documentos\obs studio\upm\informática\trabajo github\twie_2021ex-carreras-de-caballos\sdl2-general\sdl2-2.0.14\x86_64-w64-mingw32\include\sdl2\sdl.h
 	"SDL_main.h"
@@ -381,4 +382,24 @@
 	<SDL2/SDL_version.h>
 	<SDL2/begin_code.h>
 	<SDL2/close_code.h>
+
+1626169639 c:\users\jorge\onedrive\documentos\obs studio\upm\informática\trabajo github\twie_2021ex-carreras-de-caballos\carreras de caballos\funcionesp.h
+	<stdio.h>
+	<math.h>
+	<string.h>
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	<sys/time.h>
+	<stdlib.h>
+
+1626170374 source:c:\users\jorge\onedrive\documentos\obs studio\upm\informática\trabajo github\twie_2021ex-carreras-de-caballos\carreras de caballos\funcionesp.c
+	<stdio.h>
+	<math.h>
+	<string.h>
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	"Funcionesp.h"
+	<sys/time.h>
+	<stdlib.h>
+	<time.h>
 
