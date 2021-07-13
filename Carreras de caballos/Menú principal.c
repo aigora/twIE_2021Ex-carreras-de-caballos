@@ -9,7 +9,7 @@
 typedef struct
 {
     char nombre[50];
-    int puntuacion;
+    float puntuacion;
 }registro_jugadores;
 
 void ranking (registro_jugadores registro[], int dim);
@@ -64,7 +64,7 @@ int main (int argc, char* argv[])
             registro_partidas=fopen("Registro.txt","a");
 
             for (int i=0;i<numero_jugadores;i++)
-                fprintf(registro_partidas,"%s: %f\n",registrar[i].nombre,tiempo[i]);
+                fprintf(registro_partidas,"%s: %.3f\n",registrar[i].nombre,tiempo[i]);
 
             fclose(registro_partidas);
             free(tiempo);
@@ -85,12 +85,12 @@ int main (int argc, char* argv[])
                 exit(-1);
             }
 
-            while(fscanf(registro_partidas,"%[^:]: %i\n",registro[i].nombre,&registro[i].puntuacion)!=EOF)
+            while(fscanf(registro_partidas,"%[^:]: %f\n",registro[i].nombre,&registro[i].puntuacion)!=EOF)
                 i++;
 
             ranking(registro,nlineas);
             for (int i=0;i<nlineas;i++)
-                printf("%s: %i\n",registro[i].nombre,registro[i].puntuacion);
+                printf("%s: %.3f\n",registro[i].nombre,registro[i].puntuacion);
             printf("\n");
             nlineas=0;
             i=0;
@@ -112,7 +112,7 @@ int main (int argc, char* argv[])
 
 void ranking (registro_jugadores registro[], int dim)
 {
-    int aux;
+    float aux;
     char name_aux[50];
 
     for (int i=0;i<dim-1;i++)
