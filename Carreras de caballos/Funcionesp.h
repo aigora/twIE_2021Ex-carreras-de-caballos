@@ -22,7 +22,7 @@ typedef struct
 void carril(variables_jugador jugador[],int n,int numero_jugador);
 SDL_Texture *cargar_texturas (char ruta[50],SDL_Renderer *render);
 void you_win(SDL_Rect *posicion_texto, int numero_vidas, SDL_Renderer *escenario, SDL_Texture *texto);
-void movimiento_jugador(variables_jugador jugador[], int numero_jugador, int *tiempo);
+void movimiento_jugador(variables_jugador jugador[], int numero_jugador, int *tiempo, int *contador);
 void limites_mapa(variables_jugador jugador[],int numero_jugador);
 void generar_jugador(variables_jugador jugador[], int numero_jugador, SDL_Renderer *escenario,int numero_jugadores);
 void copiar_atributos(variables_jugador jugador[], int numero_jugadores, SDL_Renderer *escenario);

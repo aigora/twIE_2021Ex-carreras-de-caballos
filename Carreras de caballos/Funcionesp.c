@@ -32,27 +32,36 @@ void you_win(SDL_Rect *posicion_texto, int numero_vidas, SDL_Renderer *escenario
 void movimiento_jugador(variables_jugador jugador[], int numero_jugador, int *tiempo,int *contador)//Permite al usuario interactuar con su jugador
 {
     const Uint8 *captura=SDL_GetKeyboardState(NULL);//Necesario para poder usar SDL_Scancode
-    int velocidad_movimiento;
+    int velocidad_movimiento=5;
     SDL_Scancode tecla;
 
-    if(numero_jugador==0)//En funcion del jugador en cuestion usara las teclas asdw o las flechas
-    tecla=SDL_SCANCODE_SPACE;
-    if(numero_jugador==1)
-    tecla=SDL_SCANCODE_LSHIFT;
-    if(numero_jugador==2)
-    tecla=SDL_SCANCODE_RSHIFT;
-    if(numero_jugador==3)
-    tecla=SDL_SCANCODE_6;
+   switch(numero_jugador)
+    {
+    case 0:
+        tecla=SDL_SCANCODE_SPACE;
+        break;
+    case 1:
+        tecla=SDL_SCANCODE_A;
+        break;
+    case 2:
+        tecla=SDL_SCANCODE_L;
+        break;
+    case 3:
+        tecla=SDL_SCANCODE_6;
+        break;
+    }
 
     if(captura[tecla])//Detecta si el una tecla esta pulsada, entoces se ejecuta la condicion
         {
-            srand(time(NULL));
-            velocidad_movimiento=rand()%10;
+            /*srand(time(NULL));
+            velocidad_movimiento=rand()%10;*/
             jugador[numero_jugador].recortar_animacion.y=jugador[numero_jugador].alto_animacion/4;
+
             if(*contador==0)
-	    jugador[numero_jugador].posicion_animacion.x+=velocidad_movimiento;
+                jugador[numero_jugador].posicion_animacion.x+=velocidad_movimiento;
+
             *tiempo+=1;
-	    *contador+=1;
+            *contador+=1;
             if(*tiempo>=5)//Este if sirve para crear la animacion, el tiempo simplemente sirve para que no la ejecute demasiado rapido
             {
                 jugador[numero_jugador].recortar_animacion.x+=jugador[numero_jugador].ancho_animacion/4;//Pasa a recortar la siguiente fase de la animacion
@@ -95,7 +104,7 @@ break;
     }
     if(numero_jugador==1)
     {
-    tecla[0]=SDL_SCANCODE_A;
+    tecla[0]=SDL_SCANCODE_W;
     tecla[1]=SDL_SCANCODE_Z;
     }
     if(numero_jugador==2)
@@ -108,7 +117,7 @@ break;
     tecla[0]=SDL_SCANCODE_5;
     tecla[1]=SDL_SCANCODE_7;
     }
-if(captura[teclas[0]])
+if(captura[tecla[0]])
 {
     for(j=0;j<n;j++)
         {
@@ -130,10 +139,10 @@ if(captura[teclas[0]])
          }
          }
          }
-        }  
+        }
         }
 }
-if(captura[teclas[1]])
+if(captura[tecla[1]])
 {
 switch (n)
 {
@@ -158,7 +167,7 @@ for(j=0;j<n;j++)
          }
          }
         }
-    }  
+    }
 }
 break;
 case 3:
@@ -182,7 +191,7 @@ for(j=0;j<n;j++)
          }
          }
         }
-    }  
+    }
 }
 break;
 case 4:
@@ -206,10 +215,10 @@ for(j=0;j<n;j++)
          }
          }
         }
-    }  
+    }
 }
-break;   
-}   
+break;
+}
 }
 }
 void limites_mapa(variables_jugador jugador[],int numero_jugador)//Limita el movimiento del jugador al plano de la pantalla
@@ -293,6 +302,9 @@ void generar_jugador(variables_jugador jugador[], int numero_jugador, SDL_Render
     jugador[numero_jugador].posicion_animacion.w=100;
     jugador[numero_jugador].posicion_animacion.h=75;
 
+    for (int i=0;i<numero_jugadores;i++)
+        jugador[i].fin=0;
+
 }
 void copiar_atributos(variables_jugador jugador[], int numero_jugadores, SDL_Renderer *escenario)//Copia los atributos de un jugador sobre el render
 {
@@ -306,12 +318,14 @@ void destruir_atributos(variables_jugador jugador[], int numero_jugador)//Destru
 }
 
 
-void multijugador(int numero_jugadores)
+void multijugador(int numero_jugadores, float tiempo[])
 {
     int tiempo_jugador1;
     int tiempo_jugador2;
     int tiempo_jugador3;
     int tiempo_jugador4;
+    int red,blue,green;
+    int contador=0;
     variables_jugador *jugador;
 
     SDL_Window *ventanaprincipal=NULL;//Ventana donde se ejecuta el juego
@@ -357,6 +371,38 @@ else//Genera los jugadores con las funciones definidas de antes
     break;
     }
 }
+    if (numero_jugadores==4)
+    {
+        for (int i=0; i<4;i++)
+        {
+        red=rand()%256;
+        blue=rand()%256;
+        green=rand()%256;
+        SDL_SetTextureColorMod(jugador[i].animacion,red,blue,green);
+        }
+    }
+    if (numero_jugadores==3)
+    {
+        for (int i=0; i<3;i++)
+        {
+        red=rand()%256;
+        blue=rand()%256;
+        green=rand()%256;
+        SDL_SetTextureColorMod(jugador[i].animacion,red,blue,green);
+        }
+    }
+    if (numero_jugadores==2)
+    {
+        for (int i=0; i<2;i++)
+        {
+        red=rand()%256;
+        blue=rand()%256;
+        green=rand()%256;
+        SDL_SetTextureColorMod(jugador[i].animacion,red,blue,green);
+        }
+    }
+
+    clock_t cl=clock();
 
    while(ejecutando)//El programa principal es un bucle que se reproduce infinitamente hasta que cambiemos el valor de ejecutando
     {
@@ -368,27 +414,39 @@ else//Genera los jugadores con las funciones definidas de antes
                 ejecutando=0;
             }
         }
-        /*switch(n)
+        switch(numero_jugadores)
         {
+
         case 2:
-        movimiento_jugador(jugador,0,&tiempo_jugador1);//Para mover los jugadores
-        movimiento_jugador(jugador,1,&tiempo_jugador2);
-
+        carril(jugador,numero_jugadores,0);
+        carril(jugador,numero_jugadores,1);
+        movimiento_jugador(jugador,0,&tiempo_jugador1,&contador);//Para mover los jugadores
+        movimiento_jugador(jugador,1,&tiempo_jugador2,&contador);
         break;
+
         case 3:
-        movimiento_jugador(jugador,0,&tiempo_jugador1);//Para mover los jugadores
-        movimiento_jugador(jugador,1,&tiempo_jugador2);
-        movimiento_jugador(jugador,2,&tiempo_jugador3);
-
+        movimiento_jugador(jugador,0,&tiempo_jugador1,&contador);//Para mover los jugadores
+        movimiento_jugador(jugador,1,&tiempo_jugador2,&contador);
+        movimiento_jugador(jugador,2,&tiempo_jugador3,&contador);
         break;
+
         case 4:
-        movimiento_jugador(jugador,0,&tiempo_jugador1);//Para mover los jugadores
-        movimiento_jugador(jugador,1,&tiempo_jugador2);
-        movimiento_jugador(jugador,2,&tiempo_jugador3);
-        movimiento_jugador(jugador,3,&tiempo_jugador4);
-
+        movimiento_jugador(jugador,0,&tiempo_jugador1,&contador);//Para mover los jugadores
+        movimiento_jugador(jugador,1,&tiempo_jugador2,&contador);
+        movimiento_jugador(jugador,2,&tiempo_jugador3,&contador);
+        movimiento_jugador(jugador,3,&tiempo_jugador4,&contador);
         break;
-        }*/
+        }
+        for (int i=0;i<numero_jugadores;i++)
+        {
+            if (jugador[i].posicion_animacion.x>=900&&jugador[i].fin==0)
+            {
+                tiempo[i]=(clock()-cl)*1000/CLOCKS_PER_SEC;
+                tiempo[i]/=1000;
+                jugador[i].fin=1;
+
+            }
+        }
         SDL_RenderClear(escenario);//Limpia lo que haya en el escenario
         copiar_atributos(jugador,numero_jugadores,escenario);
         SDL_RenderPresent(escenario);//Presenta el render sobre la ventana principal
