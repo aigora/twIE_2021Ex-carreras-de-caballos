@@ -11,6 +11,8 @@ typedef struct
         int numero_jugador; //Cantidad de jugadores
         int ancho_animacion, alto_animacion;//Alto, ancho imagen animacion
 
+        _Bool antitrampa;
+
         SDL_Texture *animacion; //Texturas relacioadas con el jugador
         SDL_Rect recortar_animacion;
         SDL_Rect posicion_animacion;
