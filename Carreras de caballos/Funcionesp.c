@@ -105,7 +105,7 @@ break;
     }
     if(numero_jugador==1)
     {
-    tecla[0]=SDL_SCANCODE_W;
+    tecla[0]=SDL_SCANCODE_Q;
     tecla[1]=SDL_SCANCODE_Z;
     }
     if(numero_jugador==2)
@@ -120,25 +120,21 @@ break;
     }
 if(captura[tecla[0]])
 {
-    //printf("va\n");
     for(j=0;j<n;j++)
         {
-        //printf("%i %i\n",jugador[numero_jugador].posicion_animacion.y,carril[j]);
         if(jugador[numero_jugador].posicion_animacion.y==carril[j])
         {
-         //printf("Puta\n");
-         if(j-1<0)
-         printf("se queda gilipollas\n");
+         if(j-1<0);
          else
          {
          for(i=0;i<n;i++)
          {
          if(carril[j-1]==jugador[i].posicion_animacion.y&&i!=numero_jugador)
          {
-         if((jugador[numero_jugador].posicion_animacion.x<jugador[i].posicion_animacion.x&&
+            if((jugador[numero_jugador].posicion_animacion.x<jugador[i].posicion_animacion.x&&
              (jugador[numero_jugador].posicion_animacion.x+jugador[numero_jugador].posicion_animacion.w)<jugador[i].posicion_animacion.x)||
-            (jugador[numero_jugador].posicion_animacion.x>jugador[i].posicion_animacion.x&&
-             (jugador[numero_jugador].posicion_animacion.x+jugador[numero_jugador].posicion_animacion.w)>jugador[i].posicion_animacion.x))
+            (jugador[numero_jugador].posicion_animacion.x>(jugador[i].posicion_animacion.x+jugador[i].posicion_animacion.w)&&
+             (jugador[numero_jugador].posicion_animacion.x+jugador[numero_jugador].posicion_animacion.w)>(jugador[i].posicion_animacion.x+jugador[i].posicion_animacion.w)))
          ++k;
          }
          else
@@ -152,7 +148,6 @@ if(captura[tecla[0]])
 }
 if(captura[tecla[1]])
 {
-printf("venga\n");
 switch (n)
 {
 case 2:
@@ -161,22 +156,20 @@ for(j=0;j<n;j++)
     if(jugador[numero_jugador].posicion_animacion.y==carril[j])
     {
         if(j+1>1);
-         //se queda gilipollas
         else
         {
          for(i=0;i<n;i++)
          {
          if(carril[j+1]==jugador[i].posicion_animacion.y&&i!=numero_jugador)
          {
-         if((jugador[numero_jugador].posicion_animacion.x<jugador[i].posicion_animacion.x&&
+            if((jugador[numero_jugador].posicion_animacion.x<jugador[i].posicion_animacion.x&&
              (jugador[numero_jugador].posicion_animacion.x+jugador[numero_jugador].posicion_animacion.w)<jugador[i].posicion_animacion.x)||
-            (jugador[numero_jugador].posicion_animacion.x>jugador[i].posicion_animacion.x&&
-             (jugador[numero_jugador].posicion_animacion.x+jugador[numero_jugador].posicion_animacion.w)>jugador[i].posicion_animacion.x))
+            (jugador[numero_jugador].posicion_animacion.x>(jugador[i].posicion_animacion.x+jugador[i].posicion_animacion.w)&&
+             (jugador[numero_jugador].posicion_animacion.x+jugador[numero_jugador].posicion_animacion.w)>(jugador[i].posicion_animacion.x+jugador[i].posicion_animacion.w)))
          ++k;
          }
          else
          ++k;
-         printf("%i\n",k);
          }
          if(k==n)
          jugador[numero_jugador].posicion_animacion.y=carril[j+1];
@@ -189,18 +182,17 @@ for(j=0;j<n;j++)
 {
     if(jugador[numero_jugador].posicion_animacion.y==carril[j])
     {
-        if(j+1>1);
-         //se queda gilipollas
+        if(j+1>2);
         else
         {
          for(i=0;i<n;i++)
          {
          if(carril[j+1]==jugador[i].posicion_animacion.y&&i!=numero_jugador)
          {
-         if((jugador[numero_jugador].posicion_animacion.x<jugador[i].posicion_animacion.x&&
+            if((jugador[numero_jugador].posicion_animacion.x<jugador[i].posicion_animacion.x&&
              (jugador[numero_jugador].posicion_animacion.x+jugador[numero_jugador].posicion_animacion.w)<jugador[i].posicion_animacion.x)||
-            (jugador[numero_jugador].posicion_animacion.x>jugador[i].posicion_animacion.x&&
-             (jugador[numero_jugador].posicion_animacion.x+jugador[numero_jugador].posicion_animacion.w)>jugador[i].posicion_animacion.x))
+            (jugador[numero_jugador].posicion_animacion.x>(jugador[i].posicion_animacion.x+jugador[i].posicion_animacion.w)&&
+             (jugador[numero_jugador].posicion_animacion.x+jugador[numero_jugador].posicion_animacion.w)>(jugador[i].posicion_animacion.x+jugador[i].posicion_animacion.w)))
          ++k;
          }
          else
@@ -217,8 +209,7 @@ for(j=0;j<n;j++)
 {
     if(jugador[numero_jugador].posicion_animacion.y==carril[j])
     {
-        if(j+1>1);
-         //se queda gilipollas
+        if(j+1>3);
         else
         {
          for(i=0;i<n;i++)
@@ -227,8 +218,8 @@ for(j=0;j<n;j++)
          {
          if((jugador[numero_jugador].posicion_animacion.x<jugador[i].posicion_animacion.x&&
              (jugador[numero_jugador].posicion_animacion.x+jugador[numero_jugador].posicion_animacion.w)<jugador[i].posicion_animacion.x)||
-            (jugador[numero_jugador].posicion_animacion.x>jugador[i].posicion_animacion.x&&
-             (jugador[numero_jugador].posicion_animacion.x+jugador[numero_jugador].posicion_animacion.w)>jugador[i].posicion_animacion.x))
+            (jugador[numero_jugador].posicion_animacion.x>(jugador[i].posicion_animacion.x+jugador[i].posicion_animacion.w)&&
+             (jugador[numero_jugador].posicion_animacion.x+jugador[numero_jugador].posicion_animacion.w)>(jugador[i].posicion_animacion.x+jugador[i].posicion_animacion.w)))
          ++k;
          }
          else
