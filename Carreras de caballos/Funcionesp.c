@@ -32,7 +32,7 @@ void you_win(SDL_Rect *posicion_texto, int numero_vidas, SDL_Renderer *escenario
 void movimiento_jugador(variables_jugador jugador[], int numero_jugador, int *tiempo,int *contador)//Permite al usuario interactuar con su jugador
 {
     const Uint8 *captura=SDL_GetKeyboardState(NULL);//Necesario para poder usar SDL_Scancode
-    int velocidad_movimiento=5;
+    int velocidad_movimiento=10;
     SDL_Scancode tecla;
 
    switch(numero_jugador)
@@ -57,11 +57,9 @@ void movimiento_jugador(variables_jugador jugador[], int numero_jugador, int *ti
             velocidad_movimiento=rand()%10;*/
             jugador[numero_jugador].recortar_animacion.y=jugador[numero_jugador].alto_animacion/4;
 
-            if(*contador==0)
-                jugador[numero_jugador].posicion_animacion.x+=velocidad_movimiento;
-
-            *tiempo+=1;
-            *contador+=1;
+            if(contador[numero_jugador]==0)
+            {
+            jugador[numero_jugador].posicion_animacion.x+=velocidad_movimiento;
             if(*tiempo>=5)//Este if sirve para crear la animacion, el tiempo simplemente sirve para que no la ejecute demasiado rapido
             {
                 jugador[numero_jugador].recortar_animacion.x+=jugador[numero_jugador].ancho_animacion/4;//Pasa a recortar la siguiente fase de la animacion
@@ -69,13 +67,16 @@ void movimiento_jugador(variables_jugador jugador[], int numero_jugador, int *ti
                     jugador[numero_jugador].recortar_animacion.x=0;//Cuando llega a la ultima fase de la animacion vuelve a la primera fase
                 *tiempo=0;
             }
-        }
+            }
+            *tiempo+=1;
+            contador[numero_jugador]+=1;
+            }
     else
-	*contador=0;
+    contador[numero_jugador]=0;
 }
 void carril(variables_jugador jugador[],int n,int numero_jugador)
 {
-int i,j;
+int i,j,k=0;
 int carril[4];
 const Uint8 *captura=SDL_GetKeyboardState(NULL);//Necesario para poder usar SDL_Scancode
 SDL_Scancode tecla[2];
@@ -86,7 +87,7 @@ carril[0]=150;
 carril[1]=400;
 break;
 case 3:
-carril[0]=100;
+carril[0]=101;
 carril[1]=300;
 carril[2]=500;
 break;
@@ -97,7 +98,7 @@ carril[2]=425;
 carril[3]=625;
 break;
 }
-    if(numero_jugador==0)//En funcion del jugador en cuestion usara las teclas asdw o las flechas
+    if(numero_jugador==0)
     {
     tecla[0]=SDL_SCANCODE_B;
     tecla[1]=SDL_SCANCODE_N;
@@ -119,31 +120,39 @@ break;
     }
 if(captura[tecla[0]])
 {
+    //printf("va\n");
     for(j=0;j<n;j++)
         {
+        //printf("%i %i\n",jugador[numero_jugador].posicion_animacion.y,carril[j]);
         if(jugador[numero_jugador].posicion_animacion.y==carril[j])
         {
-         if(j-1<0);
-         //se queda gilipollas
+         //printf("Puta\n");
+         if(j-1<0)
+         printf("se queda gilipollas\n");
          else
          {
          for(i=0;i<n;i++)
          {
-         if(carril[j-1]==jugador[i].posicion_animacion.y)
+         if(carril[j-1]==jugador[i].posicion_animacion.y&&i!=numero_jugador)
          {
          if((jugador[numero_jugador].posicion_animacion.x<jugador[i].posicion_animacion.x&&
              (jugador[numero_jugador].posicion_animacion.x+jugador[numero_jugador].posicion_animacion.w)<jugador[i].posicion_animacion.x)||
             (jugador[numero_jugador].posicion_animacion.x>jugador[i].posicion_animacion.x&&
              (jugador[numero_jugador].posicion_animacion.x+jugador[numero_jugador].posicion_animacion.w)>jugador[i].posicion_animacion.x))
+         ++k;
+         }
+         else
+         ++k;
+         }
+         if(k==n)
          jugador[numero_jugador].posicion_animacion.y=carril[j-1];
-         }
-         }
          }
         }
         }
 }
 if(captura[tecla[1]])
 {
+printf("venga\n");
 switch (n)
 {
 case 2:
@@ -157,15 +166,20 @@ for(j=0;j<n;j++)
         {
          for(i=0;i<n;i++)
          {
-         if(carril[j+1]==jugador[i].posicion_animacion.y)
+         if(carril[j+1]==jugador[i].posicion_animacion.y&&i!=numero_jugador)
          {
          if((jugador[numero_jugador].posicion_animacion.x<jugador[i].posicion_animacion.x&&
              (jugador[numero_jugador].posicion_animacion.x+jugador[numero_jugador].posicion_animacion.w)<jugador[i].posicion_animacion.x)||
             (jugador[numero_jugador].posicion_animacion.x>jugador[i].posicion_animacion.x&&
              (jugador[numero_jugador].posicion_animacion.x+jugador[numero_jugador].posicion_animacion.w)>jugador[i].posicion_animacion.x))
+         ++k;
+         }
+         else
+         ++k;
+         printf("%i\n",k);
+         }
+         if(k==n)
          jugador[numero_jugador].posicion_animacion.y=carril[j+1];
-         }
-         }
         }
     }
 }
@@ -175,21 +189,25 @@ for(j=0;j<n;j++)
 {
     if(jugador[numero_jugador].posicion_animacion.y==carril[j])
     {
-        if(j+1>2);
+        if(j+1>1);
          //se queda gilipollas
         else
         {
          for(i=0;i<n;i++)
          {
-         if(carril[j+1]==jugador[i].posicion_animacion.y)
+         if(carril[j+1]==jugador[i].posicion_animacion.y&&i!=numero_jugador)
          {
          if((jugador[numero_jugador].posicion_animacion.x<jugador[i].posicion_animacion.x&&
              (jugador[numero_jugador].posicion_animacion.x+jugador[numero_jugador].posicion_animacion.w)<jugador[i].posicion_animacion.x)||
             (jugador[numero_jugador].posicion_animacion.x>jugador[i].posicion_animacion.x&&
              (jugador[numero_jugador].posicion_animacion.x+jugador[numero_jugador].posicion_animacion.w)>jugador[i].posicion_animacion.x))
+         ++k;
+         }
+         else
+         ++k;
+         }
+         if(k==n)
          jugador[numero_jugador].posicion_animacion.y=carril[j+1];
-         }
-         }
         }
     }
 }
@@ -199,21 +217,25 @@ for(j=0;j<n;j++)
 {
     if(jugador[numero_jugador].posicion_animacion.y==carril[j])
     {
-        if(j+1>3);
+        if(j+1>1);
          //se queda gilipollas
         else
         {
          for(i=0;i<n;i++)
          {
-         if(carril[j+1]==jugador[i].posicion_animacion.y)
+         if(carril[j+1]==jugador[i].posicion_animacion.y&&i!=numero_jugador)
          {
          if((jugador[numero_jugador].posicion_animacion.x<jugador[i].posicion_animacion.x&&
              (jugador[numero_jugador].posicion_animacion.x+jugador[numero_jugador].posicion_animacion.w)<jugador[i].posicion_animacion.x)||
             (jugador[numero_jugador].posicion_animacion.x>jugador[i].posicion_animacion.x&&
              (jugador[numero_jugador].posicion_animacion.x+jugador[numero_jugador].posicion_animacion.w)>jugador[i].posicion_animacion.x))
+         ++k;
+         }
+         else
+         ++k;
+         }
+         if(k==n)
          jugador[numero_jugador].posicion_animacion.y=carril[j+1];
-         }
-         }
         }
     }
 }
