@@ -7,3 +7,5 @@ Otro1: 786
 Otro2: 362
 Otro3: 753
 Otro4: 7894
+jorgito: 5.3
+luismito: 9.2

@@ -86,7 +86,7 @@ carril[0]=150;
 carril[1]=400;
 break;
 case 3:
-carril[0]=101;
+carril[0]=100;
 carril[1]=300;
 carril[2]=500;
 break;
@@ -334,6 +334,7 @@ void multijugador(int numero_jugadores, float tiempo[])
 
 
     SDL_Event evento; //Pulsar una tecla, mover el mouse... son eventos
+    SDL_Texture *fondo=NULL;
     _Bool ejecutando=1; //Si el programa esta en proceso
 
     SDL_Init(SDL_INIT_EVERYTHING);//Inicializa la biblioteca SDL (no vamos a hacer comprobaciones de errores, por ahora)
@@ -402,9 +403,10 @@ else//Genera los jugadores con las funciones definidas de antes
         }
     }
 
-    clock_t cl=clock();
+    fondo = cargar_texturas("Fondo.png",escenario);
 
-   while(ejecutando)//El programa principal es un bucle que se reproduce infinitamente hasta que cambiemos el valor de ejecutando
+    clock_t cl=clock();
+    while(ejecutando)//El programa principal es un bucle que se reproduce infinitamente hasta que cambiemos el valor de ejecutando
     {
 
         while(SDL_PollEvent(&evento)!=0)//Procesa los eventos que se producen cada vez que se produce el bucle
@@ -448,6 +450,7 @@ else//Genera los jugadores con las funciones definidas de antes
             }
         }
         SDL_RenderClear(escenario);//Limpia lo que haya en el escenario
+        SDL_RenderCopy(escenario,fondo,NULL,NULL);
         copiar_atributos(jugador,numero_jugadores,escenario);
         SDL_RenderPresent(escenario);//Presenta el render sobre la ventana principal
 

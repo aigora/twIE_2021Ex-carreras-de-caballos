@@ -28,3 +28,4 @@ void generar_jugador(variables_jugador jugador[], int numero_jugador, SDL_Render
 void copiar_atributos(variables_jugador jugador[], int numero_jugadores, SDL_Renderer *escenario);
 void destruir_atributos(variables_jugador jugador[], int numero_jugador);
 void multijugador(int numero_jugadores,float tiempo[]);
+
