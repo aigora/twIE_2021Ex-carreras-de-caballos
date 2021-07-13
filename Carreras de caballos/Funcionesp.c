@@ -86,7 +86,7 @@ carril[0]=150;
 carril[1]=400;
 break;
 case 3:
-carril[0]=100;
+carril[0]=101;
 carril[1]=300;
 carril[2]=500;
 break;
