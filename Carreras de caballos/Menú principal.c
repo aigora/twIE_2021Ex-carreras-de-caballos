@@ -20,6 +20,7 @@ int main (int argc, char* argv[])
     char aux;
     int casos,nlineas=0,i=0;
     int numero_jugadores;
+    float *tiempo;
     _Bool menu_on=1;
     registro_jugadores *registro;
 
@@ -45,7 +46,8 @@ int main (int argc, char* argv[])
         case 2:
             printf("%cNumero de jugadores?\n",168);
             scanf("%i",&numero_jugadores);
-            multijugador(numero_jugadores);
+            tiempo=malloc(sizeof(float)*numero_jugadores);
+            multijugador(numero_jugadores,tiempo);
             break;
         case 3:
             registro_partidas = fopen("Registro.txt","r");
@@ -77,6 +79,9 @@ int main (int argc, char* argv[])
             break;
 
         }
+        for (int i=0;i<numero_jugadores;i++)
+            printf("Jugador %i: %.3f s\n",i+1,tiempo[i]);
+        free(tiempo);
 
     }while(menu_on);
 

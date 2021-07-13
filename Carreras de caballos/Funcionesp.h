@@ -11,7 +11,7 @@ typedef struct
         int numero_jugador; //Cantidad de jugadores
         int ancho_animacion, alto_animacion;//Alto, ancho imagen animacion
 
-        _Bool antitrampa;
+        _Bool fin;
 
         SDL_Texture *animacion; //Texturas relacioadas con el jugador
         SDL_Rect recortar_animacion;
@@ -26,4 +26,4 @@ void limites_mapa(variables_jugador jugador[],int numero_jugador);
 void generar_jugador(variables_jugador jugador[], int numero_jugador, SDL_Renderer *escenario,int numero_jugadores);
 void copiar_atributos(variables_jugador jugador[], int numero_jugadores, SDL_Renderer *escenario);
 void destruir_atributos(variables_jugador jugador[], int numero_jugador);
-void multijugador(int numero_jugadores);
+void multijugador(int numero_jugadores,float tiempo[]);

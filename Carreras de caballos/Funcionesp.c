@@ -38,19 +38,15 @@ void movimiento_jugador(variables_jugador jugador[], int numero_jugador, int *ti
     switch(numero_jugador)
     {
     case 0:
-        srand(rand()*time(NULL));
         tecla=SDL_SCANCODE_SPACE;
         break;
     case 1:
-        srand(rand()*time(NULL));
         tecla=SDL_SCANCODE_A;
         break;
     case 2:
-        srand(rand()*time(NULL));
         tecla=SDL_SCANCODE_L;
         break;
     case 3:
-        srand(rand()*time(NULL));
         tecla=SDL_SCANCODE_6;
         break;
     }
@@ -152,6 +148,9 @@ void generar_jugador(variables_jugador jugador[], int numero_jugador, SDL_Render
     jugador[numero_jugador].posicion_animacion.w=100;
     jugador[numero_jugador].posicion_animacion.h=75;
 
+    for (int i=0;i<numero_jugadores;i++)
+        jugador[i].fin=1;
+
 }
 void copiar_atributos(variables_jugador jugador[], int numero_jugadores, SDL_Renderer *escenario)//Copia los atributos de un jugador sobre el render
 {
@@ -165,13 +164,12 @@ void destruir_atributos(variables_jugador jugador[], int numero_jugador)//Destru
 }
 
 
-void multijugador(int numero_jugadores)
+void multijugador(int numero_jugadores,float tiempo[])
 {
     int tiempo_jugador1;
     int tiempo_jugador2;
     int tiempo_jugador3;
     int tiempo_jugador4;
-    int tiempo=0;
     int red,blue,green;
     variables_jugador *jugador;
 
@@ -248,6 +246,9 @@ if (numero_jugadores==4)
         SDL_SetTextureColorMod(jugador[i].animacion,red,blue,green);
         }
     }
+
+    clock_t cl=clock();
+
    while(ejecutando)//El programa principal es un bucle que se reproduce infinitamente hasta que cambiemos el valor de ejecutando
     {
 
@@ -279,6 +280,17 @@ if (numero_jugadores==4)
         break;
         }
 
+        for (int i=0;i<numero_jugadores;i++)
+        {
+            if (jugador[i].posicion_animacion.x>=900&&jugador[i].fin==1)
+            {
+                tiempo[i]=(clock()-cl)*1000/CLOCKS_PER_SEC;
+                tiempo[i]/=1000;
+                jugador[i].fin=0;
+
+            }
+        }
+
 
         SDL_RenderClear(escenario);//Limpia lo que haya en el escenario
         copiar_atributos(jugador,numero_jugadores,escenario);
@@ -294,6 +306,7 @@ if (numero_jugadores==4)
     SDL_DestroyWindow(ventanaprincipal);
     ventanaprincipal=NULL; //Apunta todos los punteros a NULL
     superficieprincipal=NULL;
+
 
     SDL_Quit();//Sale de la libreria SDL
 }
