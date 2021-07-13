@@ -19,6 +19,7 @@ typedef struct
 
 }variables_jugador;
 
+void carril(variables_jugador jugador[],int n,int numero_jugador);
 SDL_Texture *cargar_texturas (char ruta[50],SDL_Renderer *render);
 void you_win(SDL_Rect *posicion_texto, int numero_vidas, SDL_Renderer *escenario, SDL_Texture *texto);
 void movimiento_jugador(variables_jugador jugador[], int numero_jugador, int *tiempo);
