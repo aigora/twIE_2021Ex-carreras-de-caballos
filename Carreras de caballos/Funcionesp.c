@@ -29,7 +29,7 @@ void you_win(SDL_Rect *posicion_texto, int numero_vidas, SDL_Renderer *escenario
     }
 }
 
-void movimiento_jugador(variables_jugador jugador[], int numero_jugador, int *tiempo,int *contador)//Permite al usuario interactuar con su jugador
+void movimiento_jugador(variables_jugador jugador[], int numero_jugador, int *tiempo,int *contador,int *aturdido)//Permite al usuario interactuar con su jugador
 {
     const Uint8 *captura=SDL_GetKeyboardState(NULL);//Necesario para poder usar SDL_Scancode
     int velocidad_movimiento=10;
@@ -44,7 +44,7 @@ void movimiento_jugador(variables_jugador jugador[], int numero_jugador, int *ti
         tecla=SDL_SCANCODE_A;
         break;
     case 2:
-        tecla=SDL_SCANCODE_L;
+        tecla=SDL_SCANCODE_UP;
         break;
     case 3:
         tecla=SDL_SCANCODE_6;
@@ -57,7 +57,7 @@ void movimiento_jugador(variables_jugador jugador[], int numero_jugador, int *ti
             velocidad_movimiento=rand()%10;*/
             jugador[numero_jugador].recortar_animacion.y=jugador[numero_jugador].alto_animacion/4;
 
-            if(contador[numero_jugador]==0)
+            if(contador[numero_jugador]==0&&aturdido[numero_jugador]==0)
             {
             jugador[numero_jugador].posicion_animacion.x+=velocidad_movimiento;
             if(*tiempo>=5)//Este if sirve para crear la animacion, el tiempo simplemente sirve para que no la ejecute demasiado rapido
@@ -70,11 +70,11 @@ void movimiento_jugador(variables_jugador jugador[], int numero_jugador, int *ti
             }
             *tiempo+=1;
             contador[numero_jugador]+=1;
-            }
+        }
     else
     contador[numero_jugador]=0;
 }
-void carril(variables_jugador jugador[],int n,int numero_jugador)
+void carril(variables_jugador jugador[],int n,int numero_jugador,int *aturdido,int *cambio)
 {
 int i,j,k=0;
 int carril[4];
@@ -87,7 +87,7 @@ carril[0]=150;
 carril[1]=400;
 break;
 case 3:
-carril[0]=101;
+carril[0]=100;
 carril[1]=300;
 carril[2]=500;
 break;
@@ -122,7 +122,10 @@ if(captura[tecla[0]])
 {
     for(j=0;j<n;j++)
         {
-        if(jugador[numero_jugador].posicion_animacion.y==carril[j])
+        if(aturdido[numero_jugador]!=0||cambio[numero_jugador]!=0);
+        else
+        {
+                if(jugador[numero_jugador].posicion_animacion.y==carril[j])
         {
          if(j-1<0);
          else
@@ -145,13 +148,18 @@ if(captura[tecla[0]])
          }
         }
         }
+        }
+cambio[numero_jugador]+=1;
 }
-if(captura[tecla[1]])
+else if(captura[tecla[1]])
 {
 switch (n)
 {
 case 2:
 for(j=0;j<n;j++)
+{
+if(aturdido[numero_jugador]!=0||cambio[numero_jugador]!=0);
+else
 {
     if(jugador[numero_jugador].posicion_animacion.y==carril[j])
     {
@@ -176,9 +184,14 @@ for(j=0;j<n;j++)
         }
     }
 }
+
+}
 break;
 case 3:
 for(j=0;j<n;j++)
+{
+if(aturdido[numero_jugador]!=0||cambio[numero_jugador]!=0);
+else
 {
     if(jugador[numero_jugador].posicion_animacion.y==carril[j])
     {
@@ -203,9 +216,14 @@ for(j=0;j<n;j++)
         }
     }
 }
+
+}
 break;
 case 4:
 for(j=0;j<n;j++)
+{
+if(aturdido[numero_jugador]!=0||cambio[numero_jugador]!=0);
+else
 {
     if(jugador[numero_jugador].posicion_animacion.y==carril[j])
     {
@@ -216,7 +234,7 @@ for(j=0;j<n;j++)
          {
          if(carril[j+1]==jugador[i].posicion_animacion.y&&i!=numero_jugador)
          {
-         if((jugador[numero_jugador].posicion_animacion.x<jugador[i].posicion_animacion.x&&
+            if((jugador[numero_jugador].posicion_animacion.x<jugador[i].posicion_animacion.x&&
              (jugador[numero_jugador].posicion_animacion.x+jugador[numero_jugador].posicion_animacion.w)<jugador[i].posicion_animacion.x)||
             (jugador[numero_jugador].posicion_animacion.x>(jugador[i].posicion_animacion.x+jugador[i].posicion_animacion.w)&&
              (jugador[numero_jugador].posicion_animacion.x+jugador[numero_jugador].posicion_animacion.w)>(jugador[i].posicion_animacion.x+jugador[i].posicion_animacion.w)))
@@ -230,10 +248,37 @@ for(j=0;j<n;j++)
         }
     }
 }
+
+}
 break;
 }
+cambio[numero_jugador]+=1;
+}
+else
+cambio[numero_jugador]=0;
+}
+
+void aturdir(variables_jugador jugador[],int n,int numero_jugador,int *aturdido)
+{
+int i,j;
+for(i=0;i<n;i++)
+{
+for(j=0;j<n;j++)
+    {
+    if(i==j);
+    else if(aturdido[i]!=0||aturdido[j]!=0);
+    else
+        {
+        if(jugador[i].posicion_animacion.y==jugador[j].posicion_animacion.y
+           && jugador[i].posicion_animacion.x<(jugador[j].posicion_animacion.x+jugador[j].posicion_animacion.w)
+           && jugador[j].posicion_animacion.x<jugador[i].posicion_animacion.x)
+            ++aturdido[i];
+
+        }
+    }
 }
 }
+
 void limites_mapa(variables_jugador jugador[],int numero_jugador)//Limita el movimiento del jugador al plano de la pantalla
 {
     const int velocidad_movimiento=2;
@@ -333,12 +378,14 @@ void destruir_atributos(variables_jugador jugador[], int numero_jugador)//Destru
 
 void multijugador(int numero_jugadores, float tiempo[])
 {
-    int tiempo_jugador1;
-    int tiempo_jugador2;
-    int tiempo_jugador3;
-    int tiempo_jugador4;
+    int tiempo_jugador1=0;
+    int tiempo_jugador2=0;
+    int tiempo_jugador3=0;
+    int tiempo_jugador4=0;
     int red,blue,green;
-    int contador=0;
+    int contador[4]={0,0,0,0};
+    int aturdido[4]={0,0,0,0};
+    int cambio[4]={0,0,0,0};
     variables_jugador *jugador;
 
     SDL_Window *ventanaprincipal=NULL;//Ventana donde se ejecuta el juego
@@ -371,17 +418,20 @@ else//Genera los jugadores con las funciones definidas de antes
     case 2:
         generar_jugador(jugador,0,escenario,numero_jugadores);
         generar_jugador(jugador,1,escenario,numero_jugadores);
+        fondo = cargar_texturas("Fondo2.png",escenario);
     break;
     case 3:
         generar_jugador(jugador,0,escenario,numero_jugadores);
         generar_jugador(jugador,1,escenario,numero_jugadores);
         generar_jugador(jugador,2,escenario,numero_jugadores);
+        fondo = cargar_texturas("Fondo3.png",escenario);
     break;
     case 4:
         generar_jugador(jugador,0,escenario,numero_jugadores);
         generar_jugador(jugador,1,escenario,numero_jugadores);
         generar_jugador(jugador,2,escenario,numero_jugadores);
         generar_jugador(jugador,3,escenario,numero_jugadores);
+        fondo = cargar_texturas("Fondo4.png",escenario);
     break;
     }
 }
@@ -416,8 +466,6 @@ else//Genera los jugadores con las funciones definidas de antes
         }
     }
 
-    fondo = cargar_texturas("Fondo.png",escenario);
-
     clock_t cl=clock();
     while(ejecutando)//El programa principal es un bucle que se reproduce infinitamente hasta que cambiemos el valor de ejecutando
     {
@@ -433,33 +481,49 @@ else//Genera los jugadores con las funciones definidas de antes
         {
 
         case 2:
-        carril(jugador,numero_jugadores,0);
-        carril(jugador,numero_jugadores,1);
-        movimiento_jugador(jugador,0,&tiempo_jugador1,&contador);//Para mover los jugadores
-        movimiento_jugador(jugador,1,&tiempo_jugador2,&contador);
+        aturdir(jugador,numero_jugadores,0,aturdido);
+        aturdir(jugador,numero_jugadores,1,aturdido);
+        carril(jugador,numero_jugadores,0,aturdido,cambio);
+        carril(jugador,numero_jugadores,1,aturdido,cambio);
+        movimiento_jugador(jugador,0,&tiempo_jugador1,contador,aturdido);//Para mover los jugadores
+        movimiento_jugador(jugador,1,&tiempo_jugador2,contador,aturdido);
         break;
 
         case 3:
-        movimiento_jugador(jugador,0,&tiempo_jugador1,&contador);//Para mover los jugadores
-        movimiento_jugador(jugador,1,&tiempo_jugador2,&contador);
-        movimiento_jugador(jugador,2,&tiempo_jugador3,&contador);
+        aturdir(jugador,numero_jugadores,0,aturdido);
+        aturdir(jugador,numero_jugadores,1,aturdido);
+        aturdir(jugador,numero_jugadores,2,aturdido);
+        carril(jugador,numero_jugadores,0,aturdido,cambio);
+        carril(jugador,numero_jugadores,1,aturdido,cambio);
+        carril(jugador,numero_jugadores,2,aturdido,cambio);
+        movimiento_jugador(jugador,0,&tiempo_jugador1,contador,aturdido);
+        movimiento_jugador(jugador,1,&tiempo_jugador2,contador,aturdido);
+        movimiento_jugador(jugador,2,&tiempo_jugador3,contador,aturdido);
         break;
 
         case 4:
-        movimiento_jugador(jugador,0,&tiempo_jugador1,&contador);//Para mover los jugadores
-        movimiento_jugador(jugador,1,&tiempo_jugador2,&contador);
-        movimiento_jugador(jugador,2,&tiempo_jugador3,&contador);
-        movimiento_jugador(jugador,3,&tiempo_jugador4,&contador);
+        aturdir(jugador,numero_jugadores,0,aturdido);
+        aturdir(jugador,numero_jugadores,1,aturdido);
+        aturdir(jugador,numero_jugadores,2,aturdido);
+        aturdir(jugador,numero_jugadores,3,aturdido);
+        carril(jugador,numero_jugadores,0,aturdido,cambio);
+        carril(jugador,numero_jugadores,1,aturdido,cambio);
+        carril(jugador,numero_jugadores,2,aturdido,cambio);
+        carril(jugador,numero_jugadores,3,aturdido,cambio);
+        movimiento_jugador(jugador,0,&tiempo_jugador1,contador,aturdido);
+        movimiento_jugador(jugador,1,&tiempo_jugador2,contador,aturdido);
+        movimiento_jugador(jugador,2,&tiempo_jugador3,contador,aturdido);
+        movimiento_jugador(jugador,3,&tiempo_jugador4,contador,aturdido);
         break;
         }
         for (int i=0;i<numero_jugadores;i++)
         {
-            if (jugador[i].posicion_animacion.x>=900&&jugador[i].fin==0)
+            if (jugador[i].posicion_animacion.x>=1100&&jugador[i].fin==0)
             {
                 tiempo[i]=(clock()-cl)*1000/CLOCKS_PER_SEC;
                 tiempo[i]/=1000;
                 jugador[i].fin=1;
-
+                aturdido[i]=1;
             }
         }
         SDL_RenderClear(escenario);//Limpia lo que haya en el escenario
@@ -480,3 +544,4 @@ else//Genera los jugadores con las funciones definidas de antes
 
     SDL_Quit();//Sale de la libreria SDL
 }
+

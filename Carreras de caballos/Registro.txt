@@ -1,8 +1,0 @@
-jorge: 4.863
-luis: 8.460
-luismi: 11.989
-miguel: 15.537
-otro: 4.319
-otromas: 8.831
-otro1: 12.495
-otromas1: 16.707

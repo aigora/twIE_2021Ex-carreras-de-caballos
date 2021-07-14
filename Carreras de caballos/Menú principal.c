@@ -16,12 +16,12 @@ void ranking (registro_jugadores registro[], int dim);
 
 int main (int argc, char* argv[])
 {
-    char instrucciones[]="Aqui instrucciones";
+    char instrucciones[]=" Juego multijugador, de dos a cuatro jugadores\n para avanzar tendras que pulsar de manera intermitente\n el boton asignado a cada jugador, con la opcion de cambiar\n de carriles con dos botones asignados,un total de tres botones por jugador.\n Ganara el que menos tiempo tarde en llegar al otro lado de la pantalla\n Si un caballo empuja a otro por atras, lo aturdira para el resto de la partida\n y no podra seguir avanzando, con lo que no se contara su tiempo en el transcurso de la carrera\n Jugador1:\n Espacio para avanzar\n N carril de la izquierda\n B carril de la derecha\n Jugador2:\n A para avanzar\n Q carril de la izquierda\n Z carril de la derecha\n Jugador3:\n Flecha hacia arriba(UP) para avanzar\n Flecha hacia la izquierda(LEFT) carril de la izquierda\n Flecha hacia la derecha(RIGHT) carril de la derecha\n Jugador4:\n 6 para avanzar\n 5 carril de la izquierda\n 7 carril de la derecha";
     char aux;
     int casos,nlineas=0,i=0;
     int numero_jugadores;
     float *tiempo;
-    _Bool menu_on=1;
+    int menu_on=1;
     registro_jugadores *registro;
     registro_jugadores *registrar;
 
@@ -98,6 +98,7 @@ int main (int argc, char* argv[])
             fclose(registro_partidas);
             break;
         case 4:
+            menu_on=0;
             break;
         default:
             break;

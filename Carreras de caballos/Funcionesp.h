@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <math.h>
-#include <string.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <sys/time.h>
@@ -19,13 +16,15 @@ typedef struct
 
 }variables_jugador;
 
-void carril(variables_jugador jugador[],int n,int numero_jugador);
+void carril(variables_jugador jugador[],int n,int numero_jugador,int *aturdido,int *cambio);
 SDL_Texture *cargar_texturas (char ruta[50],SDL_Renderer *render);
 void you_win(SDL_Rect *posicion_texto, int numero_vidas, SDL_Renderer *escenario, SDL_Texture *texto);
-void movimiento_jugador(variables_jugador jugador[], int numero_jugador, int *tiempo, int *contador);
+void movimiento_jugador(variables_jugador jugador[], int numero_jugador, int *tiempo, int *contador,int *aturdido);
 void limites_mapa(variables_jugador jugador[],int numero_jugador);
 void generar_jugador(variables_jugador jugador[], int numero_jugador, SDL_Renderer *escenario,int numero_jugadores);
 void copiar_atributos(variables_jugador jugador[], int numero_jugadores, SDL_Renderer *escenario);
 void destruir_atributos(variables_jugador jugador[], int numero_jugador);
 void multijugador(int numero_jugadores,float tiempo[]);
+void aturdir(variables_jugador jugador[],int n,int numero_jugador,int *aturdido);
+
 
